@@ -9,14 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.3",
     "@types/node": "20.4.2",
     "@types/react": "18.2.14",
+    "@types/react-color": "^3.0.6",
     "@types/react-dom": "18.2.7",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
+    "js-cookie": "^3.0.5",
     "next": "13.4.9",
     "react": "18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "18.2.0",
-    "typescript": "5.1.6"
+    "react-eyedrop": "^5.4.2",
+    "react-icons": "^4.10.1",
+    "typescript": "5.1.6",
+    "zustand": "^4.3.9"
   }
 }

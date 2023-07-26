@@ -1,0 +1,136 @@
+.generate_color_outer {
+  background-color: #0009;
+  padding: var(--space-l);
+  font-size: var(--step-1);
+  border-radius: 9px;
+  color: #fff;
+  margin-block: var(--space-l);
+  margin-inline: auto;
+}
+
+.generate_color_outer header {
+  margin-bottom: var(--space-2xs);
+}
+
+.picker_outer {
+  display: grid;
+  gap: 0.3em;
+  margin-bottom: var(--space-l);
+}
+
+@media screen and (min-width: 50em) {
+  .picker_outer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.color_show {
+  display: grid;
+}
+
+.color_show > div {
+  margin-top: var(--space-2xl);
+}
+
+@media screen and (min-width: 50em) {
+  .color_show {
+    grid-template-columns: 1fr 1fr;
+  }
+  .color_show > :first-child {
+    border-right: 1px solid #fff6;
+    padding-right: var(--space-xs);
+  }
+  .color_show > :nth-child(2) {
+    padding-left: var(--space-xs);
+  }
+}
+
+.color_show_item {
+  margin-bottom: var(--space-xs);
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: var(--step-0);
+  text-transform: uppercase;
+}
+
+.color_item > :first-child {
+  width: 5ch;
+  text-align: right;
+  margin-bottom: var(--space-l);
+}
+
+.color_item {
+  flex-grow: 1;
+}
+
+.color_show_hex {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: center;
+}
+
+@media screen and (min-width: 30em) and (max-width: 50em) {
+  .color_show_item {
+    margin-bottom: var(--space-3xs);
+  }
+  .color_item > :first-child {
+    margin-bottom: 0;
+  }
+  .color_show_hex {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .color_show_hex > :nth-child(2) {
+    width: 10ch;
+  }
+}
+
+@media screen and (min-width: 67.5em) {
+  .color_show_item {
+    margin-bottom: var(--space-3xs);
+  }
+  .color_item > :first-child {
+    margin-bottom: 0;
+  }
+  .color_show_hex {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .color_show_hex > :nth-child(2) {
+    width: 10ch;
+  }
+}
+
+.color_show_color {
+  flex-grow: 1;
+  height: 50px;
+}
+
+.eye_drop_outer {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 35px;
+  aspect-ratio: 1;
+  z-index: 1;
+}
+
+.eye_drop_outer > div {
+  height: 100%;
+}
+
+.eye_drop_btn {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #404040;
+  border-radius: 5px;
+  cursor: pointer;
+}

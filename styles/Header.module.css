@@ -1,0 +1,62 @@
+.header {
+  position: fixed;
+  width: 100%;
+  padding: var(--space-2xs);
+  border-bottom: 1px solid var(--border-clr);
+  box-shadow: var(--box-sd);
+  z-index: 10;
+  background-color: var(--bg-clr);
+}
+
+.logo {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.logo p {
+  font-weight: 700;
+}
+
+.nav {
+  position: absolute;
+  top: 150%;
+  right: 0;
+  width: min(98%, 300px);
+  overflow: hidden;
+  border: 2px solid var(--border-clr);
+  border-radius: 0.5em;
+  box-shadow: var(--box-sd);
+  transition: var(--transition);
+  z-index: 10;
+  background-color: #fff;
+  font-weight: 700;
+  color: var(--gold-1);
+}
+
+.nav.nav_open {
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.nav.nav_close {
+  clip-path: polygon(100% 0, 100% 0%, 100% 0, 100% 0);
+}
+
+@media screen and (min-width: 45em) {
+  .menu_buttom {
+    display: none;
+  }
+  .nav {
+    position: static;
+    width: auto;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    box-shadow: none;
+  }
+
+  .nav.nav_close {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  }
+}

@@ -1,0 +1,280 @@
+.generate_clippath_outer {
+  font-size: var(--step-1);
+  border-radius: 9px;
+  color: #000;
+  margin-block: var(--space-l);
+  margin-inline: auto;
+  display: grid;
+  grid-template-areas:
+    'box'
+    'options'
+    'text'
+    'setting';
+}
+
+@media screen and (min-width: 50em) {
+  .generate_clippath_outer {
+    grid-template-areas:
+      'box options'
+      'text setting';
+    grid-template-columns: 1fr 370px;
+  }
+}
+
+.text,
+.setting,
+.options,
+.box {
+  max-width: calc(100vw - 20px);
+}
+
+.box {
+  grid-area: box;
+  min-height: 160px;
+  padding: 1rem;
+  display: grid;
+  place-content: center;
+}
+
+.show {
+  position: relative;
+}
+
+.show_bg,
+.show_main,
+.show_hander,
+.show_border {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.show_bg {
+  filter: brightness(0.8);
+}
+
+.show_border {
+  border: 1px solid #ccc;
+}
+
+.show_main {
+  filter: brightness(1.1);
+}
+
+.handler {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  opacity: 0.8;
+  transform: translateX(-10px) translateY(-10px);
+  cursor: grabbing;
+  transition: opacity 0.2s;
+}
+
+.show:hover .handler {
+  opacity: 1;
+}
+
+.add_point {
+  background-color: #e9e8e8;
+  padding: var(--space-xs);
+  width: 95%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.add_point_btn {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  background-color: #000;
+  display: grid;
+  place-content: center;
+  width: 30px;
+  aspect-ratio: 1;
+}
+
+.text {
+  grid-area: text;
+  font-weight: 700;
+}
+
+.text p {
+  font-size: 1rem;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem 1.5rem;
+}
+
+.options {
+  grid-area: options;
+  display: flex;
+  gap: 0.5rem;
+  background-color: #ccc;
+  padding: var(--space-2xs);
+  overflow-x: auto;
+}
+
+@media screen and (min-width: 50em) {
+  .options {
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    height: fit-content;
+    align-self: self-end;
+  }
+}
+
+.shape_items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: var(--space-2xs);
+  min-width: 90px;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 50em) {
+  .shape_items {
+    min-width: 80px;
+    flex-basis: 80px;
+    flex-grow: 1;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+}
+
+.shape_items span {
+  font-size: var(--step--2);
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.setting {
+  grid-area: setting;
+  background-color: #ccc;
+  padding: var(--space-2xs);
+}
+
+@media screen and (min-width: 50em) {
+  .setting {
+    overflow-x: hidden;
+    width: 370px;
+    font-size: var(--step--1);
+    padding-top: 0;
+  }
+}
+
+.setting > *:not(:last-child) {
+  margin-bottom: var(--space-2xs);
+}
+
+.size,
+.show_hidden_bg,
+.bg_choosen {
+  background-color: #fff;
+  padding: var(--space-2xs);
+}
+
+.size,
+.show_hidden_bg {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.size > label {
+  white-space: nowrap;
+}
+
+.size > div {
+  display: flex;
+  gap: 0.5rem;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.size > div > input {
+  width: 100%;
+  border-radius: 100vmax;
+  text-align: center;
+  border: 2px solid #ccc;
+  transition: 0.2s;
+  appearance: textfield;
+  padding-block: var(--space-3xs);
+}
+
+.size > div > input::-webkit-outer-spin-button,
+.size > div > input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.size > div > input:hover {
+  background-color: #ccc;
+}
+
+.size > div > input:focus {
+  background-color: #000;
+  color: #fff;
+}
+
+.size > div > span {
+  font-weight: 700;
+}
+
+.show_hidden_bg > button {
+  flex-grow: 1;
+  background-color: transparent;
+  border: 2px solid #ccc;
+  transition: 0.2s;
+  border-radius: 100vmax;
+  padding-block: var(--space-3xs);
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+}
+
+.show_hidden_bg > button:hover {
+  background-color: #ccc;
+}
+
+.bg_display {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+  margin-top: var(--space-3xs);
+}
+
+.bg_display > div {
+  cursor: pointer;
+  position: relative;
+}
+
+.bg_display > div > div:nth-child(2) {
+  position: absolute;
+  top: -5px;
+  right: 5px;
+}
+
+.bg_display > div > div:first-child {
+  width: 100%;
+  aspect-ratio: 1;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  filter: brightness(0.8);
+  transition: 0.2s;
+}
+
+.bg_display > div:hover {
+  filter: brightness(1.1);
+}
