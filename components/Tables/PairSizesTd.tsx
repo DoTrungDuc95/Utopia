@@ -2,7 +2,9 @@ import {
   CalculatorInput,
   useCalculatorInput,
 } from '@/store/useCalculatorInput';
+
 import { diableBtn } from '@/utils/calculator';
+
 import {
   MdOutlineKeyboardArrowUp,
   MdOutlineKeyboardArrowDown,

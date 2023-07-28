@@ -17,6 +17,12 @@ export const initSteps = [5, 4, 3, 2, 1, 0, -1, -2];
 export const initCustomPair = [
   ['s', 'm', `${require('crypto').randomBytes(64).toString('hex')}`],
 ];
+export const initGrid = {
+  minGutterSize: 's',
+  maxGutterSize: 's',
+  maxWidthSize: 's',
+  maxCol: 12,
+};
 
 export type CalcType = {
   minVp: number;
@@ -26,6 +32,8 @@ export type CalcType = {
   minTs: number;
   maxTs: number;
 };
+
+export type GridType = typeof initGrid;
 
 export type Size = {
   size: string;
@@ -39,12 +47,14 @@ export type CalculatorInput = {
   steps: number[];
   sizes: Size[];
   pair: string[][];
+  grid: GridType;
   setCalcVal: (name: string, val: number) => void;
   setVpArr: (vps: number[]) => void;
   setSizes: (sizes: Size[]) => void;
   deleteOneVp: (vp: number) => void;
   setSteps: (st: number[]) => void;
   setPair: (p: string[][]) => void;
+  setGrid: (grid: GridType) => void;
 };
 
 const init: CalcType = {
@@ -58,6 +68,7 @@ const init: CalcType = {
 
 export const useCalculatorInput = create<CalculatorInput>((set) => ({
   calcVal: init,
+  grid: JSON.parse(JSON.stringify(initGrid)),
   pair: JSON.parse(JSON.stringify(initCustomPair)),
   vpArr: [],
   steps: [...initSteps],
@@ -85,5 +96,9 @@ export const useCalculatorInput = create<CalculatorInput>((set) => ({
   setPair: (pair: string[][]) =>
     set((state: CalculatorInput) => ({
       pair,
+    })),
+  setGrid: (grid: GridType) =>
+    set((state: CalculatorInput) => ({
+      grid,
     })),
 }));

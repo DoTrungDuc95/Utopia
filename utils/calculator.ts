@@ -1,5 +1,6 @@
-import { Size } from '@/store/useCalculatorInput';
+import { GridType, Size } from '@/store/useCalculatorInput';
 import { indent } from './indent';
+import { GridInfoType } from '@/types';
 
 export const calculatorFsFromStep = (
   fs: number,
@@ -80,6 +81,38 @@ export const generateClampForStep = (
   return `--step-${step}: clamp(${minStepFs.toFixed(
     2
   )}rem, calc(${a}rem + ${b}vw), ${maxStepFs.toFixed(2)}rem);`;
+};
+
+export const generateClampStepForGrid = (
+  minVp: number,
+  maxVp: number,
+  minFs: number,
+  maxFs: number,
+  steps: number[],
+  minScale: number,
+  maxScale: number
+) => {
+  const obj: any = {};
+  steps.forEach((s, i) => {
+    const gen = generateClampForStep(
+      s,
+      minVp,
+      maxVp,
+      minFs,
+      maxFs,
+      minScale,
+      maxScale
+    );
+    obj['step' + s] = gen.substring(0, gen.lastIndexOf(';')).split(': ')[1];
+  });
+  const st0 = { step: 0, value: obj['step0'] };
+  const st1 = obj['step1'] ? { step: 1, value: obj['step1'] } : st0;
+  const st2 = obj['step2'] ? { step: 2, value: obj['step2'] } : st1;
+  const st3 = obj['step3'] ? { step: 3, value: obj['step3'] } : st2;
+  const st4 = obj['step4'] ? { step: 4, value: obj['step4'] } : st3;
+  const st5 = obj['step5'] ? { step: 5, value: obj['step5'] } : st4;
+  
+  return [st0, st1, st2, st3, st4, st5];
 };
 
 export const generateTypeCss = (
@@ -412,6 +445,13 @@ export const getCustomPair = (
   return pairs;
 };
 
+export const manageGridSize = (sizes: Size[], size: string, pos: string) => {
+  const i = sizes.findIndex((s) => s.size === size);
+  if (pos === 'T') return sizes[i + 1].size;
+  else if (pos === 'B') return sizes[i - 1].size;
+  return 's';
+};
+
 const generateClampForIndividualSpace = (
   size: Size,
   minVp: number,
@@ -615,4 +655,154 @@ export const generateSpaceCSSNotClamp = (
     str += indent(s + '\n', 1, 2);
   });
   return str + '}';
+};
+
+export const generateGridTableData = (
+  sizes: Size[],
+  grid: GridType,
+  minVp: number,
+  minFs: number,
+  maxFs: number,
+  currentVp: number
+) => {
+  const minGutter = Math.round(
+    sizes.find((s) => s.size === grid.minGutterSize)!.multi * minFs
+  );
+  const maxGutter = Math.round(
+    sizes.find((s) => s.size === grid.maxGutterSize)!.multi * maxFs
+  );
+  const maxColWidth = Math.round(
+    sizes.find((s) => s.size === grid.maxWidthSize)!.multi * maxFs
+  );
+
+  const maxVp = maxColWidth * grid.maxCol + (grid.maxCol + 1) * maxGutter;
+
+  if (currentVp > maxVp && maxVp <= window.innerWidth) {
+    currentVp = maxVp;
+  } else if (currentVp < minVp) currentVp = minVp;
+
+  const row1 = [
+    'Container',
+    `${minVp}px`,
+    `${maxVp}px`,
+    `${Math.round(currentVp)}px`,
+  ];
+
+  let currentGutter;
+  if (currentVp < minVp) currentGutter = minGutter;
+  else if (currentVp > maxVp) currentGutter = maxGutter;
+  else
+    currentGutter = calculatorNewFsForNewVp(
+      currentVp,
+      minVp,
+      maxVp,
+      minGutter,
+      maxGutter
+    );
+  currentGutter = Math.round(currentGutter);
+
+  const row2 = [
+    'Gutter',
+    `${minGutter}px`,
+    `${maxGutter}px`,
+    `${currentGutter}px`,
+  ];
+
+  const minColWidth = (minVp - (grid.maxCol + 1) * minGutter) / grid.maxCol;
+
+  let currentColWidth;
+  if (currentVp < minVp) currentColWidth = minColWidth;
+  else if (currentVp > maxVp) currentColWidth = maxColWidth;
+  else
+    currentColWidth =
+      (currentVp - (grid.maxCol + 1) * currentGutter) / grid.maxCol;
+
+  currentColWidth = Math.round(currentColWidth);
+
+  const row3 = [
+    'Column',
+    `${minColWidth.toFixed(2)}px`,
+    `${maxColWidth}px`,
+    `${currentColWidth}px`,
+  ];
+
+  const info: GridInfoType = {
+    minCtn: minVp,
+    maxCtn: maxVp,
+    curCtn: currentVp,
+    minGutter,
+    maxGutter,
+    currentGutter,
+    minColWidth,
+    maxColWidth,
+    currentColWidth,
+  };
+
+  return {
+    data: [row1, row2, row3],
+    info,
+  };
+};
+
+const generateGridContainerCss = () => {
+  return (
+    '.u-container {\n' +
+    indent('max-width: var(--grid-max-width);\n', 1, 2) +
+    indent('padding-inline: var(--grid-gutter);\n', 1, 2) +
+    indent(' margin-inline: auto;\n', 1, 2) +
+    '}\n\n' +
+    '.u-grid {\n' +
+    indent('display: grid;\n', 1, 2) +
+    indent('gap: var(--grid-gutter);\n', 1, 2) +
+    '}'
+  );
+};
+
+export const generateGridCss = (
+  sizes: Size[],
+  grid: GridType,
+  minVp: number,
+  minFs: number,
+  maxFs: number
+) => {
+  let str = 'root: {\n';
+  let minGutter = Math.round(
+    sizes.find((s) => s.size === grid.minGutterSize)?.multi! * minFs
+  );
+  let maxGutter = Math.round(
+    sizes.find((s) => s.size === grid.maxGutterSize)?.multi! * maxFs
+  );
+  let maxColWidth = Math.round(
+    sizes.find((s) => s.size === grid.maxWidthSize)?.multi! * maxFs
+  );
+
+  const gridMaxWidth =
+    maxColWidth * grid.maxCol + maxGutter * (grid.maxCol + 1);
+
+  minGutter = minGutter / 16;
+  maxGutter = maxGutter / 16;
+
+  const [a, b] = calculatorAAndBForClamp(
+    minVp,
+    gridMaxWidth,
+    minGutter,
+    maxGutter
+  );
+
+  const gmw = `--grid-max-width: ${(gridMaxWidth / 16).toFixed(2)}rem;\n`;
+  const ggt = `--grid-gutter: var(--space-${grid.minGutterSize}-${
+    grid.maxGutterSize
+  }, clamp(${minGutter.toFixed(
+    2
+  )}rem, calc(${a}rem + ${b}vw), ${maxGutter.toFixed(2)}rem));\n`;
+  const gcl = `--grid-columns: ${grid.maxCol};\n`;
+
+  return (
+    str +
+    indent(gmw, 1, 2) +
+    indent(ggt, 1, 2) +
+    indent(gcl, 1, 2) +
+    '}\n\n' +
+    generateGridContainerCss()
+  );
 };

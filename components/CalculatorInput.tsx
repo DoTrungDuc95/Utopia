@@ -21,10 +21,9 @@ const CalculatorInput = ({ includeScale = true }) => {
     e: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
   ) => {
     e.preventDefault();
-    const val = Number(e.currentTarget.value);
+    let val = Number(e.currentTarget.value);
     const name = e.currentTarget.name;
     if (isNaN(val)) return;
-
     setCalcVal(name, val);
   };
 
