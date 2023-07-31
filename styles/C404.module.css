@@ -1,0 +1,23 @@
+.c404 {
+  display: grid;
+  place-content: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.home_btn {
+  margin-top: 1rem;
+  border: 2px solid;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  width: fit-content;
+  margin-inline: auto;
+  transition: var(--transition);
+}
+
+.home_btn:hover {
+  background-color: #000;
+  color: #fff;
+}

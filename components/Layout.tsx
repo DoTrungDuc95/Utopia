@@ -3,6 +3,7 @@ import Header from './Header';
 import { useDarkMode, DarkMode } from '../store/useDarkMode';
 import VpModal from './VpModal';
 import Footer from './Footer';
+import { useRouter } from 'next/router';
 
 const roboto = Roboto({
   subsets: ['vietnamese'],
@@ -15,6 +16,8 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   const darkMode = useDarkMode((state: DarkMode) => state.darkMode);
+  const router = useRouter();
+  
   return (
     <div
       className={roboto.className}
@@ -24,10 +27,10 @@ const Layout = ({ children }: LayoutProps) => {
         flexDirection: 'column',
       }}
     >
-      <VpModal />
-      <Header />
+      {router.pathname !== '/404' && <VpModal />}
+      {router.pathname !== '/404' && <Header />}
       <main style={{ flexGrow: '1' }}>{children}</main>
-      <Footer />
+      {router.pathname !== '/404' && <Footer />}
     </div>
   );
 };
