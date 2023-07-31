@@ -244,6 +244,212 @@ const GeneratorClippath = () => {
     document.onmouseup = onMouseUpOnShowHander;
   };
 
+  const onPointerDownOnHandler = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!showHanderRef.current) return;
+    e.stopPropagation();
+
+    handerRef.current = e.currentTarget;
+    handerId.current = e.currentTarget.dataset.id!;
+  };
+
+  const onPointerMoveOnShow = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!handerRef.current || !showHanderRef.current || !showMain.current)
+      return;
+    const hander = handerRef.current;
+
+    const showHander = showHanderRef.current;
+    const w = showHander.offsetWidth;
+    const h = showHander.offsetHeight;
+    const coords = showHander.getBoundingClientRect();
+
+    let x = e.targetTouches[0].clientX - coords.x;
+    let y = e.targetTouches[0].clientY - coords.y;
+
+    if (x < 0) x = 0;
+    if (x > w) x = w;
+    if (y < 0) y = 0;
+    if (y > h) y = h;
+
+    const left = (x * 100) / w;
+    const top = (y * 100) / h;
+    let roundLeft = Math.round(left);
+    let roundTop = Math.round(top);
+
+    hander.style.left = `${left}%`;
+    hander.style.top = `${top}%`;
+
+    if (shape.type === shapeType.ellipse) {
+      if (handerId.current === '1') {
+        hander.style.top = shape.position[1] + '%';
+        roundTop = shape.position[1];
+      }
+      if (handerId.current === '2') {
+        hander.style.left = shape.position[0] + '%';
+        roundLeft = shape.position[0];
+      }
+    }
+
+    if (shape.type === shapeType.inset) {
+      const [x, y] = shape.coords[Number(handerId.current) - 1];
+      if (handerId.current === '1' || handerId.current === '3') {
+        hander.style.left = x + '%';
+        roundLeft = x;
+      } else if (handerId.current === '2' || handerId.current === '4') {
+        hander.style.top = y + '%';
+        roundTop = y;
+      }
+    }
+
+    const index = shape.coords.findIndex(
+      (c) => c[2].toString() === handerId.current
+    );
+
+    //type = inset
+    if (shape.type === shapeType.inset) {
+      const hander1 = document.getElementById('hander-1');
+      const hander2 = document.getElementById('hander-2');
+      const hander3 = document.getElementById('hander-3');
+      const hander4 = document.getElementById('hander-4');
+      if (!hander1 || !hander2 || !hander3 || !hander4) return;
+
+      switch (index) {
+        case 0:
+        case 2:
+          const y = (hander1.offsetTop + hander3.offsetTop) / 2;
+          const top = (y * 100) / h;
+          hander2.style.top = top + '%';
+          hander4.style.top = top + '%';
+          shape.coords[1][1] = Math.round(top);
+          shape.coords[3][1] = Math.round(top);
+          break;
+        case 1:
+        case 3:
+          const x = (hander2.offsetLeft + hander4.offsetLeft) / 2;
+          const left = (x * 100) / w;
+          hander1.style.left = left + '%';
+          hander3.style.left = left + '%';
+          shape.coords[0][0] = Math.round(left);
+          shape.coords[2][0] = Math.round(left);
+          break;
+      }
+    }
+
+    shape.coords[index] = [roundLeft, roundTop, Number(handerId.current)];
+
+    //type = circle
+    if (shape.type === shapeType.circle && index === 1) {
+      shape.position = [roundLeft, roundTop];
+
+      const hander = document.getElementById('hander-1');
+      if (!hander) return;
+
+      const radius = shape.radius[0] / Math.sqrt(2);
+
+      let x = left + radius > 100 ? left - radius : left + radius;
+      let y = top + radius > 100 ? top - radius : top + radius;
+
+      if (x < 0) x = 0;
+      if (x > 100) x = 100;
+      if (y < 0) y = 0;
+      if (y > 100) y = 100;
+
+      hander.style.left = `${x}%`;
+      hander.style.top = `${y}%`;
+      shape.coords[0] = [x, y, 1];
+    } else if (shape.type === shapeType.circle && index === 0) {
+      const [x1, y1] = shape.coords[0];
+      const [x2, y2] = shape.coords[1];
+      const deltaX = x2 - x1,
+        deltaY = y2 - y1;
+      const square = Math.pow(deltaX, 2) + Math.pow(deltaY, 2);
+      const radius = Number(Math.sqrt(square).toFixed(1));
+      shape.radius = [radius];
+    }
+    //end type = circle
+
+    //type = ellipse
+    if (shape.type === shapeType.ellipse && index === 2) {
+      shape.position = [roundLeft, roundTop];
+      const hander1 = document.getElementById('hander-1');
+      const hander2 = document.getElementById('hander-2');
+      if (!hander1 || !hander2) return;
+
+      hander1.style.top = `${top}%`;
+      hander2.style.left = `${left}%`;
+
+      const [r1, r2] = shape.radius;
+
+      let x = left + r1 > 100 ? left - r1 : left + r1;
+      let y = top + r2 > 100 ? top - r2 : top + r2;
+
+      if (x < 0) x = 0;
+      if (x > 100) x = 100;
+      if (y < 0) y = 0;
+      if (y > 100) y = 100;
+
+      hander1.style.left = `${x}%`;
+      hander2.style.top = `${y}%`;
+
+      shape.coords[0] = [x, top, 1];
+      shape.coords[1] = [left, y, 2];
+    } else if (shape.type === shapeType.ellipse && index === 0) {
+      const [x1] = shape.coords[0];
+      const [x2] = shape.coords[2];
+      const deltaX = Math.abs(x2 - x1);
+      shape.radius[0] = Number(deltaX.toFixed(1));
+    } else if (shape.type === shapeType.ellipse && index === 1) {
+      const [x1, y1] = shape.coords[1];
+      const [x2, y2] = shape.coords[2];
+      const deltaY = Math.abs(y2 - y1);
+      shape.radius[1] = Number(deltaY.toFixed(1));
+    }
+    //end type = ellipse
+
+    const clp = createClippath(shape);
+    showMain.current.style.clipPath = clp;
+
+    const span = document.getElementById(`text-${handerId.current}`);
+    if (!span) return;
+    let text = '';
+    if (shape.type === shapeType.polygon) {
+      text =
+        handerId.current !== '1'
+          ? ` ,${roundLeft}% ${roundTop}%`
+          : `${roundLeft}% ${roundTop}%`;
+    } else if (shape.type === shapeType.circle) {
+      text =
+        handerId.current === '1'
+          ? `${shape.radius}%`
+          : `${roundLeft}% ${roundTop}%`;
+    } else if (shape.type === shapeType.ellipse) {
+      text =
+        handerId.current === '3'
+          ? `${roundLeft}% ${roundTop}%`
+          : handerId.current === '1'
+          ? `${shape.radius[0]}% `
+          : `${shape.radius[1]}%`;
+    } else if (shape.type === shapeType.inset) {
+      text =
+        handerId.current === '1'
+          ? `${roundTop}%`
+          : handerId.current === '2'
+          ? ` ${100 - roundLeft}% `
+          : handerId.current === '3'
+          ? ` ${100 - roundTop}% `
+          : ` ${roundLeft}% `;
+    }
+
+    span.textContent = text;
+  };
+
+  const onPointerUpOnShow = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!showHanderRef.current || !tempCoords.current) return;
+    handerRef.current = null;
+    document.onpointermove = null;
+    document.onpointerup = null;
+    setShape(JSON.parse(JSON.stringify(shape)));
+  };
+
   const handlerSizeChange = (
     e: React.FocusEvent<HTMLInputElement, Element>
   ) => {
@@ -353,8 +559,12 @@ const GeneratorClippath = () => {
                       backgroundColor: `${color_array[c[2]] || color_array[0]}`,
                       left: `${c[0]}%`,
                       top: `${c[1]}%`,
+                      touchAction: 'none',
                     }}
                     onMouseDown={onMouseDownOnHander}
+                    onTouchStart={onPointerDownOnHandler}
+                    onTouchMove={onPointerMoveOnShow}
+                    onTouchEnd={onPointerUpOnShow}
                   ></div>
                 ))}
               {shape.coords.length === 0 && addPoint && (

@@ -9,8 +9,6 @@ import { MdAddCircleOutline, MdDelete } from 'react-icons/md';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import RoundButton from './RoundButton';
 
-type VpModalProps = {};
-
 const VpModal = () => {
   const [newVps, setNewVps] = useState<number[]>([]);
   const vpArr = useCalculatorInput((state: CalculatorInput) => state.vpArr);

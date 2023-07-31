@@ -113,65 +113,67 @@ const GridTable = () => {
   return (
     <div>
       <div className="container ctn-padding">
-        <table className="table grid-table">
-          <thead>
-            <tr>
-              <th>Width</th>
-              <th>@min</th>
-              <th>@max</th>
-              <th>@current</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dataTable.map((row, i) => (
-              <tr key={i}>
-                {row.map((data, j) => {
-                  if (i === 0 && j === 1 && gridInfo?.minCtn !== minVp)
-                    return (
-                      <td key={j}>
-                        <div className="grid-dt-with-problem">
-                          {data}
-                          <span>
-                            <RiCrossFill size={'0.6em'} />
-                          </span>
-                        </div>
-                      </td>
-                    );
-
-                  if (i === 0 && j === 2 && gridInfo?.maxCtn !== maxVp)
-                    return (
-                      <td key={j}>
-                        <div className="grid-dt-with-problem">
-                          {data}
-                          <span>
-                            <MdMusicNote size={'0.6em'} />
-                          </span>
-                        </div>
-                      </td>
-                    );
-
-                  if (
-                    i === 2 &&
-                    j === 1 &&
-                    !Number.isInteger(gridInfo?.minColWidth)
-                  )
-                    return (
-                      <td key={j}>
-                        <div className="grid-dt-with-problem">
-                          {data}
-                          <span>
-                            <AiFillStar size={'0.6em'} />
-                          </span>
-                        </div>
-                      </td>
-                    );
-
-                  return <td key={j}>{data}</td>;
-                })}
+        <div style={{ overflowY: 'auto' }}>
+          <table className="table grid-table">
+            <thead>
+              <tr>
+                <th>Width</th>
+                <th>@min</th>
+                <th>@max</th>
+                <th>@current</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {dataTable.map((row, i) => (
+                <tr key={i}>
+                  {row.map((data, j) => {
+                    if (i === 0 && j === 1 && gridInfo?.minCtn !== minVp)
+                      return (
+                        <td key={j}>
+                          <div className="grid-dt-with-problem">
+                            {data}
+                            <span>
+                              <RiCrossFill size={'0.6em'} />
+                            </span>
+                          </div>
+                        </td>
+                      );
+
+                    if (i === 0 && j === 2 && gridInfo?.maxCtn !== maxVp)
+                      return (
+                        <td key={j}>
+                          <div className="grid-dt-with-problem">
+                            {data}
+                            <span>
+                              <MdMusicNote size={'0.6em'} />
+                            </span>
+                          </div>
+                        </td>
+                      );
+
+                    if (
+                      i === 2 &&
+                      j === 1 &&
+                      !Number.isInteger(gridInfo?.minColWidth)
+                    )
+                      return (
+                        <td key={j}>
+                          <div className="grid-dt-with-problem">
+                            {data}
+                            <span>
+                              <AiFillStar size={'0.6em'} />
+                            </span>
+                          </div>
+                        </td>
+                      );
+
+                    return <td key={j}>{data}</td>;
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <div className="grid-problem-outer">
           {gridInfo?.minColWidth! <= 0 && (

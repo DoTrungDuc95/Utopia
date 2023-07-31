@@ -186,7 +186,7 @@ p[role='alert'] {
 }
 
 .ctn-padding {
-  padding-inline: var(--space-xs);
+  padding-inline: 1%;
 }
 
 @media screen and (min-width: 40em) {
@@ -433,6 +433,10 @@ p[role='alert'] {
   z-index: 1;
   background-color: #fff;
 }
+
+/* .table.grid-table {
+  overflow-x: auto;
+} */
 
 .table.grid-table th:first-child,
 .table.grid-table td:first-child,
@@ -946,6 +950,18 @@ p[role='alert'] {
   -webkit-transform: scale(1.8); /* Safari and Chrome */
   -o-transform: scale(1.8); /* Opera */
   transform: scale(1.8);
+  padding: 0.5em;
+  transform-origin: left;
+}
+
+
+.checkbox-outer.small input {
+  cursor: pointer;
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
   padding: 0.5em;
   transform-origin: left;
 }
