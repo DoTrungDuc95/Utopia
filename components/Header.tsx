@@ -10,6 +10,7 @@ import { useDarkMode, DarkMode } from '../store/useDarkMode';
 
 import { navItems } from '../assest-data/nav-data';
 import L from './L';
+import Link from 'next/link';
 
 type HeaderProps = {};
 
@@ -33,10 +34,12 @@ const Header = () => {
   return (
     <div className={`${styles.header}`}>
       <div className="container flex-bw-ct">
-        <div className={`${styles.logo} flex-bw-ct `}>
-          <IoEarthSharp size={'2.5em'} />
-          <p className="not-pointer-events h3-text">UTOPIA</p>
-        </div>
+        <Link href="/">
+          <div className={`${styles.logo} flex-bw-ct `}>
+            <IoEarthSharp size={'2.5em'} />
+            <p className="not-pointer-events h3-text">UTOPIA</p>
+          </div>
+        </Link>
         <nav
           className={`${styles.nav} ${
             open ? styles.nav_open : styles.nav_close

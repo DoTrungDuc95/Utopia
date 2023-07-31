@@ -122,6 +122,29 @@ h5 {
   font-size: var(--step-1);
 }
 
+.desc-type.effect-list {
+  margin-left: var(--space-xl);
+}
+
+@media screen and (min-width: 40em) {
+  .desc-type.effect-list {
+    margin-left: var(--space-4xl);
+  }
+}
+
+.desc-type li {
+  gap: 1rem;
+  line-height: 1;
+}
+
+.desc-type li span {
+  min-width: 9px;
+  width: 9px;
+  aspect-ratio: 1;
+  background-color: var(--gold-1);
+  border-radius: 50%;
+}
+
 .desc-type h3 {
   text-transform: uppercase;
 }
@@ -163,7 +186,13 @@ p[role='alert'] {
 }
 
 .ctn-padding {
-  padding-inline: var(--space-l);
+  padding-inline: var(--space-xs);
+}
+
+@media screen and (min-width: 40em) {
+  .ctn-padding {
+    padding-inline: var(--space-l);
+  }
 }
 
 .flex-bw-ct {
@@ -235,6 +264,12 @@ p[role='alert'] {
 
 .main-section {
   padding-top: var(--space-5xl);
+}
+
+@media screen and (min-width: 40em) {
+  .main-section.home {
+    padding-top: var(--space-3xl);
+  }
 }
 
 .sub-section {
@@ -888,6 +923,7 @@ p[role='alert'] {
 
 .checkbox-outer {
   font-size: var(--step-1);
+  display: flex;
 }
 
 .checkbox-outer.small {
@@ -900,6 +936,7 @@ p[role='alert'] {
   color: var(--gold);
   cursor: pointer;
   margin-left: 1rem;
+  white-space: nowrap;
 }
 
 .checkbox-outer input {

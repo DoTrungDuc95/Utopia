@@ -1,6 +1,7 @@
 import { GridType, Size } from '@/store/useCalculatorInput';
 import { indent } from './indent';
 import { GridInfoType } from '@/types';
+import { blogs } from '@/assest-data/blogs';
 
 export const calculatorFsFromStep = (
   fs: number,
@@ -111,7 +112,7 @@ export const generateClampStepForGrid = (
   const st3 = obj['step3'] ? { step: 3, value: obj['step3'] } : st2;
   const st4 = obj['step4'] ? { step: 4, value: obj['step4'] } : st3;
   const st5 = obj['step5'] ? { step: 5, value: obj['step5'] } : st4;
-  
+
   return [st0, st1, st2, st3, st4, st5];
 };
 
@@ -805,4 +806,15 @@ export const generateGridCss = (
     '}\n\n' +
     generateGridContainerCss()
   );
+};
+
+export const get4Blogs = () => {
+  const set = new Set<(typeof blogs)[0]>();
+  const n = blogs.length;
+  do {
+    const i = Math.floor(Math.random() * n);
+    set.add(blogs[i]);
+  } while (set.size !== 4);
+
+  return Array.from(set);
 };

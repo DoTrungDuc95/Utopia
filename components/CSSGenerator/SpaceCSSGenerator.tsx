@@ -2,10 +2,7 @@ import {
   CalculatorInput,
   useCalculatorInput,
 } from '@/store/useCalculatorInput';
-import {
-  generateSpaceCSS,
-  generateSpaceCSSNotClamp,
-} from '@/utils/calculator';
+import { generateSpaceCSS, generateSpaceCSSNotClamp } from '@/utils/calculator';
 import CSSGenerator from '@/components/CSSGenerator/CSSGenerator';
 import { useEffect, useState } from 'react';
 
@@ -27,7 +24,7 @@ const SpaceCSSGenerator = () => {
     }
     setClamp(str);
   }, [pairs, sizes, minVp, maxVp, minFs, maxFs, useClamp]);
-  
+
   return (
     <div className="container ctn-padding">
       <div>
@@ -44,7 +41,7 @@ const SpaceCSSGenerator = () => {
           </label>
         </div>
       </div>
-      <CSSGenerator clamp={clamp} />;
+      <CSSGenerator clamp={clamp} />
     </div>
   );
 };

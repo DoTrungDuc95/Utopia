@@ -42,7 +42,7 @@ const GridCssGenerator = ({ mvp }: GridCssGeneratorProps) => {
           </p>
         </div>
       </div>
-      <CSSGenerator clamp={clamp} />;
+      <CSSGenerator clamp={clamp} />
     </div>
   );
 };

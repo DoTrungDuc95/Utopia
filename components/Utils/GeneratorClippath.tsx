@@ -227,7 +227,6 @@ const GeneratorClippath = () => {
     handerRef.current = null;
     document.onmousemove = null;
     document.onmouseup = null;
-    // console.log(shape_array.find((s) => s.name === 'Ellipse'));
     setShape(JSON.parse(JSON.stringify(shape)));
   };
 

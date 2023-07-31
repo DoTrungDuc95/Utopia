@@ -82,7 +82,6 @@ const GridTable = () => {
     const w = Math.ceil(minColWidthRef.current!);
     const vp =
       w * grid.maxCol + (grid.maxCol + 1) * Math.round(gridInfo?.minGutter!);
-    console.log(vp);
 
     setTempMinVP(vp);
   };
@@ -322,7 +321,7 @@ const GridTable = () => {
           )}
         </div>
       </div>
-      <GridShowcase w={w} info={gridInfo} tempMinVp={tempMinVP}/>
+      {gridInfo && <GridShowcase w={w} info={gridInfo} tempMinVp={tempMinVP} />}
       <GridCssGenerator mvp={tempMinVP} />
     </div>
   );

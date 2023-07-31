@@ -23,7 +23,6 @@ const GridShowcase = ({ w, info, tempMinVp }: GridShowcaseProps) => {
   const [showGutter, setShowGutter] = useState(true);
   const [showColumn, setShowColumn] = useState(true);
   const [showLabel, setShowLabel] = useState(true);
-  console.log(fs);
   useEffect(() => {
     const fs = generateClampStepForGrid(
       tempMinVp,

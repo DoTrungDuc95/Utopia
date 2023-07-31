@@ -126,7 +126,10 @@ const TypeTable = () => {
             {dataTb.map((row, i) => (
               <tr key={i}>
                 {row.map((data, j) => (
-                  <td key={j}>
+                  <td
+                    key={j}
+                    style={{ fontWeight: row[0] === '0' ? 700 : 400 }}
+                  >
                     {(i == 0 || i == dataTb.length - 1) &&
                     j == 0 &&
                     data[j] !== '0' ? (

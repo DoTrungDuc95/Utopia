@@ -9,7 +9,7 @@ const ColorCssGenerator = () => {
   const color = useColor((state: UseColor) => state.color);
   const sColors = useColor((state: UseColor) => state.sColors);
   const lColors = useColor((state: UseColor) => state.lColors);
-  
+
   useEffect(() => {
     const cl = generateColorCss(color, sColors, lColors, type);
     setClamp(cl);
@@ -79,7 +79,7 @@ const ColorCssGenerator = () => {
           </div>
         </div>
       </div>
-      <CSSGenerator clamp={clamp} />;
+      <CSSGenerator clamp={clamp} />
     </div>
   );
 };

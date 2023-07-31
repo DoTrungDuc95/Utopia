@@ -67,3 +67,5 @@ export const blogs = [
     tag: `A designer's perspective`,
   },
 ];
+
+export type Blog = (typeof blogs)[0];

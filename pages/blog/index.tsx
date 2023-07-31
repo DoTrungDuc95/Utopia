@@ -1,4 +1,4 @@
-import { BsArrowRight } from "react-icons/bs";
+import { BsArrowRight } from 'react-icons/bs';
 
 import Title from '@/components/Title';
 import { blogs } from '@/assest-data/blogs';
@@ -13,13 +13,13 @@ const Blog = () => {
         {blogs.map((b) => (
           <article key={b.id} className={styles.blog_item}>
             <div className={`flex-bw-ct`}>
-              <p className={styles.blog_tag}>
-                {b.tag}
-              </p>
-              <BsArrowRight color="#9D8D6C" size='1.5rem'/>
+              <p className={styles.blog_tag}>{b.tag}</p>
+              <BsArrowRight color="#9D8D6C" size="1.5rem" />
             </div>
             <p className={styles.blog_title}>{b.title}</p>
-            <p className={styles.blog_author}>by {b.author.length === 1 ? b.author[0] : b.author.join(' & ')}</p>
+            <p className={styles.blog_author}>
+              by {b.author.length === 1 ? b.author[0] : b.author.join(' & ')}
+            </p>
           </article>
         ))}
       </div>

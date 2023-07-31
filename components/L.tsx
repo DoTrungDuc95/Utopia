@@ -16,7 +16,7 @@ const L = ({ href, to, icon: Icon, iconSize = '1.5em' }: LProps) => {
   const currentRoute = route.pathname === href;
   return (
     <div className={`nav-item ${currentRoute ? 'current-nav-item' : ''}`}>
-      <div className="icon-nav-item">
+      <div className="icon-nav-item flex-ct-ct">
         <Icon size={iconSize} />
       </div>
       <Link

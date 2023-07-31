@@ -57,7 +57,7 @@ const TypeCssGenerator = () => {
           </label>
         </div>
       </div>
-      <CSSGenerator clamp={clamp} />;
+      <CSSGenerator clamp={clamp} />
     </div>
   );
 };
